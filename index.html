@@ -19,7 +19,7 @@
 <div data-role="page" id="main">
 	<div data-role="header"><h1 data-bind="text: current"></h1></div>
 	<div role="main" class="ui-content">
-		<button id="go" class="ui-btn">Push the button</button>
+		<button id="roll" class="ui-btn">Roll!</button>
 		<ul data-inset="true" data-role="listview" data-bind="foreach: result">
 			<li class="ui-li-static ui-body-inherit" data-bind="text: name() + ' ' + roll()"></li>
 		</ul>
@@ -173,7 +173,7 @@
 			loadModel( stored );
 	});
 	
-	$("#go").click(function() {
+	$("#roll").click(function() {
 		model.roll();
 	});
 	
