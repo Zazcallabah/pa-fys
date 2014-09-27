@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<!--html manifest="fys.appcache"-->
+<head>
+	<title>Fysapp Parkour Academy</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css"/>
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+	<script src="knockout-3.2.0.js"></script>
+	<script src="dice.js"></script>
+	<script src="model.js"></script>
+	<style>
+		#removepresets .ui-header { background: #FFBBBB !important; }
+	</style>
+</head>
+<body>
+<div data-role="page" id="main">
+	<div data-role="header"><h1 data-bind="text: current"></h1></div>
+	<div role="main" class="ui-content">
+		<button id="go" class="ui-btn">Push the button</button>
+		<ul data-inset="true" data-role="listview" data-bind="foreach: result">
+			<li class="ui-li-static ui-body-inherit" data-bind="text: name() + ' ' + roll()"></li>
+		</ul>
+	</div>
+	<div data-role="footer">&nbsp;
+		<a class="ui-btn ui-btn-inline" href="#setup">Setup</a>
+		<a class="ui-btn ui-btn-inline" href="#presets">Presets</a>
+	</div>
+</div>
+
+<div data-role="page" id="setup">
+	<div data-role="header"><h1 data-bind="text: 'Setup: ' + current()"></h1></div>
+	<div role="main" class="ui-content">
+		<form data-bind="foreach: dice">
+			<h4 data-bind="text: faces().length+' sided die'"></h4>
+			<div data-role="none" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
+				<input type="text" data-role="none" data-bind="value: name" />
+			</div>
+			<button class="ui-btn ui-btn-inline" data-bind="click: addFace">Add side</button>
+			<button class="ui-btn ui-btn-inline" data-bind="click: removeFace">Remove side</button>
+			<div data-bind="foreach: faces">
+				<div data-role="none" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
+					<input type="text" data-role="none" data-bind="value: $data" />
+				</div>
+			</div>
+		</form>
+		<button class="ui-btn ui-btn-inline" id="adddice">Add dice</button>
+		<button class="ui-btn ui-btn-inline" id="removedice">Remove dice</button>
+		
+		<!--form>
+     <label for="currentname">Preset name:</label>
+     <input type="text" name="text-1" id="text-1" value="">
+		<div data-role="none" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
+			<input type="text" id="currentname" name="currentname" data-role="none" data-bind="value: " />
+		</div>
+		</form-->
+	</div>
+	<div data-role="footer">&nbsp;
+		<a class="ui-btn ui-btn-inline" href="#main">Go</a>
+		<button class="ui-btn ui-btn-inline" id="save">Save custom</button>
+		<a class="ui-btn ui-btn-inline" href="#presets">Presets</a>
+	</div>
+</div>
+
+<div data-role="page" id="presets">
+	<div data-role="header"><h1>Presets</h1></div>
+	<div role="main" class="ui-content">
+		<div data-bind="foreach: customPresets">
+			<button class="ui-btn" data-bind="css: { 'ui-btn-b': selected }, text:name, click: toggleSelected"></button>
+		</div>
+	</div>
+	<div data-role="footer">&nbsp;
+		<a class="ui-btn ui-btn-inline" href="#main">Go</a>
+		<button class="ui-btn ui-btn-inline" id="addpreset">Add</button>
+		<a class="ui-btn ui-btn-inline" href="#removepresets">Remove</a>
+		<a class="ui-btn ui-btn-inline" href="#import">Import/Export</a>
+	</div>
+</div>
+
+<div data-role="page" id="removepresets">
+	<div data-role="header"><h1>Remove Presets</h1></div>
+	<div role="main" class="ui-content">
+		<div data-bind="foreach: customPresets">
+			<button class="ui-btn ui-icon-delete ui-btn-icon-left" data-bind="text:name, click: removeMe"></button>
+		</div>
+	</div>
+	<div data-role="footer">&nbsp;
+		<a class="ui-btn" href="#presets">Back</a>
+	</div>
+</div>
+
+<div data-role="page" id="import">
+	<div data-role="header"><h1>Import/Export</h1></div>
+	<div role="main" class="ui-content">
+		<!-- form>
+			<button class="ui-btn" data-bind="click: import, enabled: ">Import</button>
+			<button class="ui-btn" data-bind="click: export">Export</button>
+			
+		</form -->
+	</div>
+	<div data-role="footer">&nbsp;
+		<a class="ui-btn ui-btn-inline" href="#main">Go</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var model = new Model();
+	ko.applyBindings(model);
+
+	var upperBodyPreset = {
+		name:"Upper body",
+		dice:[{
+				name:"Action",
+				faces:[ "Double taps","Pushups","Climbups","Deadhang 5s","Traverse 0.5m",
+					"Deadhang traverse 0.5m","Flathand climbups","Handstand traverse 0.5m",
+					"Handstand pushups","Monkey walk 2m"]
+			},{
+				name:"Modifier",
+				faces:[ "of PAIN","of PAIN","of DOOM","of DOOM",
+					"of DISASTER","of DISASTER","of CHAOS","of CHAOS","of DEATH"]
+			},{
+				name:"Count",
+				faces:[ "x6","x6","x6","x6","x6","x6","x7","x8","x10"]
+			}
+		]
+	};
+	var lowerBodyPreset = {
+		name:"Lower body",
+		dice:[{
+				name:"Action",
+				faces:[ "Duckwalk","Partner carry","Lunges","Plios","Crouch jumps"]
+			},{
+				name:"Count",
+				faces:[ "x2", "x2", "x3", "x4", "x5", "x6"]
+			}
+		]
+	};
+	
+	var cloneModel = function(){
+		var data ={};
+		data.name = "Custom";
+		data.dice = [];
+		for( var i = 0; i<model.dice().length; i++ )
+		{
+			var dice = model.dice()[i];
+			var f = [];
+			for( var j = 0; j<dice.faces().length; j++ )
+				f.push( dice.faces()[j] );
+			data.dice.push({name:dice.name(),faces:f});
+		}
+		return data;
+	};
+	
+	$("#removedice").click(function() {
+		if( model.dice().length > 1 )
+			model.dice.pop();
+	});
+	
+	$("#adddice").click(function() {
+		var d = new Dice();
+		d.faces().push("");
+		model.dice.push(d);
+	});
+	
+	$("#save").click(function(){
+		localStorage["customSet"] = JSON.stringify( cloneModel() );
+	});
+	$("#custom").click(function() {
+		var stored = localStorage["customSet"];
+		if( stored !== null )
+			loadModel( stored );
+	});
+	
+	$("#go").click(function() {
+		model.roll();
+	});
+	
+	$("#addpreset").click(function(){
+		var preset = { name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]};
+		model.addPreset(preset);
+		preset.toggleSelected();
+	});
+	
+	model.addPreset(upperBodyPreset);
+	model.addPreset(lowerBodyPreset);
+	
+	if( !localStorage )
+	{
+		$("#save").hide();
+		$("#custom").hide();
+	}
+	else
+	{
+		var listdata = localStorage["customPresetList"];
+		if( listdata !== null && listdata !== undefined )
+		{
+			var list = JSON.parse(listdata);
+			for( var i = 0; i<list.length; i++)
+				model.addPreset(list[i]);
+		}
+		var preferred = localStorage["lastList"];
+		if( preferred !== null && preferred !== undefined )
+		{
+			model.preferred( preferred );
+		}
+	}
+	if( !model.loaded )
+		model.customPresets()[0].toggleSelected();
+</script>
+</body>
+</html>
