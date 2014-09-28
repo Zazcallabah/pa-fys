@@ -23,6 +23,7 @@ TODO:
 * How to best move a configuration from a computer to a browser?
 * Fix preset setup, it is kinda ugly right now.
 * Include points counter.
+* Dont just remove the last in the list on setup page
 
 
 

@@ -10,14 +10,16 @@
 	<script src="https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
 	<script src="knockout-3.2.0.js"></script>
 	<script src="dice.js"></script>
+	<script src="preset.js"></script>
 	<script src="model.js"></script>
 	<style>
 		#removepresets .ui-header { background: #FFBBBB !important; }
 	</style>
 </head>
 <body>
+
 <div data-role="page" id="main">
-	<div data-role="header"><h1 data-bind="text: current"></h1></div>
+	<div data-role="header"><h1 data-bind="text: selectedPreset().name()"></h1></div>
 	<div role="main" class="ui-content">
 		<button id="roll" class="ui-btn">Roll!</button>
 		<ul data-inset="true" data-role="listview" data-bind="foreach: result">
@@ -31,9 +33,9 @@
 </div>
 
 <div data-role="page" id="setup">
-	<div data-role="header"><h1 data-bind="text: 'Setup: ' + current()"></h1></div>
+	<div data-role="header"><h1 data-bind="text: 'Setup: ' + selectedPreset().name()"></h1></div>
 	<div role="main" class="ui-content">
-		<form data-bind="foreach: dice">
+		<form data-bind="foreach: selectedPreset().dice">
 			<h4 data-bind="text: faces().length+' sided die'"></h4>
 			<div data-role="none" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
 				<input type="text" data-role="none" data-bind="value: name" />
@@ -107,9 +109,8 @@
 
 <script type="text/javascript">
 	var model = new Model();
-	ko.applyBindings(model);
 
-	var upperBodyPreset = {
+	new Preset(model, {
 		name:"Upper body",
 		dice:[{
 				name:"Action",
@@ -125,8 +126,8 @@
 				faces:[ "x6","x6","x6","x6","x6","x6","x7","x8","x10"]
 			}
 		]
-	};
-	var lowerBodyPreset = {
+	});
+	new Preset(model, {
 		name:"Lower body",
 		dice:[{
 				name:"Action",
@@ -136,7 +137,7 @@
 				faces:[ "x2", "x2", "x3", "x4", "x5", "x6"]
 			}
 		]
-	};
+	});
 	
 	var cloneModel = function(){
 		var data ={};
@@ -154,19 +155,20 @@
 	};
 	
 	$("#removedice").click(function() {
-		if( model.dice().length > 1 )
-			model.dice.pop();
+		if( model.selectedPreset().dice().length > 1 )
+			model.selectedPreset().dice.pop();
 	});
 	
 	$("#adddice").click(function() {
 		var d = new Dice();
 		d.faces().push("");
-		model.dice.push(d);
+		model.selectedPreset().dice.push(d);
 	});
 	
 	$("#save").click(function(){
 		localStorage["customSet"] = JSON.stringify( cloneModel() );
 	});
+	
 	$("#custom").click(function() {
 		var stored = localStorage["customSet"];
 		if( stored !== null )
@@ -178,13 +180,9 @@
 	});
 	
 	$("#addpreset").click(function(){
-		var preset = { name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]};
-		model.addPreset(preset);
+		var preset = new Preset(model, { name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]});
 		preset.toggleSelected();
 	});
-	
-	model.addPreset(upperBodyPreset);
-	model.addPreset(lowerBodyPreset);
 	
 	if( !localStorage )
 	{
@@ -194,20 +192,23 @@
 	else
 	{
 		var listdata = localStorage["customPresetList"];
+		var preferred = localStorage["lastList"];
+		if( preferred === null || preferred === undefined )
+			preferred = "";
 		if( listdata !== null && listdata !== undefined )
 		{
 			var list = JSON.parse(listdata);
 			for( var i = 0; i<list.length; i++)
-				model.addPreset(list[i]);
-		}
-		var preferred = localStorage["lastList"];
-		if( preferred !== null && preferred !== undefined )
-		{
-			model.preferred( preferred );
+			{
+				var preset = new Preset(list[i]);
+				if( preset.name() === preferred )
+					preset.toggleSelected();
+			}
 		}
 	}
-	if( !model.loaded )
+	if( !model.selectedPreset() )
 		model.customPresets()[0].toggleSelected();
+	ko.applyBindings(model);
 </script>
 </body>
 </html>
