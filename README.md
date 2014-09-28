@@ -17,13 +17,12 @@ when coaching larger groups.
 
 TODO:
 ----
-* Enable offline manifest
-* fix saving of custom dice.
 * figure out how to best copy, import, export existing configurations
-* How to best move a configuration from a computer to a browser?
-* Fix preset setup, it is kinda ugly right now.
+* How to best move a configuration from a computer to a mobile browser?
+* Fix preset setup, it is kinda ugly right now. Dont just remove the last in the list on setup page
 * Include points counter.
-* Dont just remove the last in the list on setup page
+* select more than one preset to show on first page
+* add background image to first page?
 
 
 

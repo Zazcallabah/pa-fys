@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-<!--html manifest="fys.appcache"-->
+<html manifest="fys.appcache">
 <head>
 	<title>Fysapp Parkour Academy</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,6 +34,10 @@
 <div data-role="page" id="setup">
 	<div data-role="header"><h1 data-bind="text: 'Setup: ' + selectedPreset().name()"></h1></div>
 	<div role="main" class="ui-content">
+		<form>
+			<label for="nameinput">Name:</label>
+			<input type="text" name="nameinput" id="nameinput" data-bind="value: selectedPreset().name">
+		</form>
 		<form data-bind="foreach: selectedPreset().dice">
 			<h4 data-bind="text: faces().length+' sided die'"></h4>
 			<div data-role="none" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
@@ -50,18 +53,10 @@
 		</form>
 		<button class="ui-btn ui-btn-inline" id="adddice">Add dice</button>
 		<button class="ui-btn ui-btn-inline" id="removedice">Remove dice</button>
-		
-		<!--form>
-     <label for="currentname">Preset name:</label>
-     <input type="text" name="text-1" id="text-1" value="">
-		<div data-role="none" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
-			<input type="text" id="currentname" name="currentname" data-role="none" data-bind="value: " />
-		</div>
-		</form-->
 	</div>
 	<div data-role="footer">&nbsp;
 		<a class="ui-btn ui-btn-inline" href="#main">Go</a>
-		<button class="ui-btn ui-btn-inline" id="save">Save custom</button>
+		<button class="ui-btn ui-btn-inline" id="save">Save</button>
 		<a class="ui-btn ui-btn-inline" href="#presets">Presets</a>
 	</div>
 </div>
@@ -139,21 +134,6 @@
 		]
 	});
 	
-	var cloneModel = function(){
-		var data ={};
-		data.name = "Custom";
-		data.dice = [];
-		for( var i = 0; i<model.dice().length; i++ )
-		{
-			var dice = model.dice()[i];
-			var f = [];
-			for( var j = 0; j<dice.faces().length; j++ )
-				f.push( dice.faces()[j] );
-			data.dice.push({name:dice.name(),faces:f});
-		}
-		return data;
-	};
-	
 	$("#removedice").click(function() {
 		if( model.selectedPreset().dice().length > 1 )
 			model.selectedPreset().dice.pop();
@@ -166,7 +146,12 @@
 	});
 	
 	$("#save").click(function(){
-		localStorage["customSet"] = JSON.stringify( cloneModel() );
+		var l = [];
+		for( var i = 0; i<model.customPresets().length; i++ )
+		{
+			l.push(model.customPresets()[i].jsonPrepare() );
+		}
+		localStorage["customPresetList"] = JSON.stringify( l );
 	});
 	
 	$("#custom").click(function() {

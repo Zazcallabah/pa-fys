@@ -26,17 +26,32 @@ var Preset = function(model,initobj) {
 		}
 	}
 	this.model = model;
-	this.id = Math.floor(Math.random()*100000000);
 	this.selected = ko.observable(false);
 	model.customPresets.push(this);
+};
+
+Preset.prototype.jsonPrepare = function(){
+	var data ={};
+	data.name = this.name();
+	data.dice = [];
+	for( var i = 0; i<this.dice().length; i++ )
+	{
+		var dice = this.dice()[i];
+		var f = [];
+		for( var j = 0; j<dice.faces().length; j++ )
+			f.push( dice.faces()[j] );
+		data.dice.push({name:dice.name(),faces:f});
+	}
+	return data;
 };
 
 Preset.prototype.removeMe = function() {
 	if( this.model.customPresets().length === 1 )
 		return;
+	this.removalmark = true;
 	var list = [];
 	for( var i = 0; i<this.model.customPresets().length; i++ )
-		if( this.model.customPresets()[i].id !== preset.id )
+		if( !this.model.customPresets()[i].removalmark )
 			list.push( this.model.customPresets()[i] );
 	this.model.customPresets(list);
 	if( preset.selected() )
