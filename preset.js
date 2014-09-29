@@ -28,7 +28,7 @@ var Preset = function(model,initobj,permanent) {
 	}
 	this.model = model;
 	this.selected = ko.observable(false);
-	model.customPresets.push(this);
+	model.presets.push(this);
 	if( model.editingPreset() === undefined )
 		model.editingPreset(this);
 };
@@ -58,14 +58,14 @@ Preset.prototype.editMe = function() {
 };
 
 Preset.prototype.removeMe = function() {
-	if( this.model.customPresets().length === 1 )
+	if( this.model.presets().length === 1 )
 		return;
 	this.removalmark = true;
 	var list = [];
-	for( var i = 0; i<this.model.customPresets().length; i++ )
-		if( !this.model.customPresets()[i].removalmark )
-			list.push( this.model.customPresets()[i] );
-	this.model.customPresets(list);
+	for( var i = 0; i<this.model.presets().length; i++ )
+		if( !this.model.presets()[i].removalmark )
+			list.push( this.model.presets()[i] );
+	this.model.presets(list);
 	this.model.save();
 };
 
@@ -74,7 +74,7 @@ Preset.prototype.toggleSelected = function() {
 	this.model.result([]);
 	if( localStorage )
 	{
-		var list = this.model.customPresets();
+		var list = this.model.presets();
 		var l = "";
 		for( var i=0; i<list.length; i++ )
 			l=list[i].name()+";";

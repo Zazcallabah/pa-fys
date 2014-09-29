@@ -20,7 +20,7 @@
 <div data-role="page" id="main">
 	<div data-role="header"><h1>Parkour Academy Fysmaskin</h1></div>
 	<div role="main" class="ui-content">
-		<div data-bind="foreach: customPresets">
+		<div data-bind="foreach: presets">
 			<button class="ui-btn" data-bind="text: name, visible: selected, click: roll"></button>
 		</div>
 		<ul data-inset="true" data-role="listview" data-bind="foreach: result">
@@ -51,7 +51,7 @@
 	<div data-role="header"><h1>Setup</h1></div>
 	<div role="main" class="ui-content">
 		<h3>Select presets to show on front page</h3>
-		<div data-bind="foreach: customPresets">
+		<div data-bind="foreach: presets">
 			<button class="ui-btn" data-bind="css: { 'ui-btn-b': selected }, text:name, click: toggleSelected"></button>
 		</div>
 	</div>
@@ -64,7 +64,7 @@
 <div data-role="page" id="edit">
 	<div data-role="header"><h1>Edit presets</h1></div>
 	<div role="main" class="ui-content">
-		<div data-bind="foreach: customPresets">
+		<div data-bind="foreach: presets">
 			<h3 data-bind="text: name"></h3>
 			<button class="ui-btn" data-bind="click: editMe">Edit</button>
 			<button class="ui-btn" data-bind="visible: !permanent(), click: removeMe">Remove</button>
@@ -195,21 +195,21 @@
 				new Preset(model,list[i]);
 			}
 		}
-		var selection = localStorage["lastList2"] || "";
-		for( var i = 0; i<model.customPresets().length; i++ )
-			if( selection.indexOf( model.customPresets()[i].name() ) > -1 )
-				model.customPresets()[i].toggleSelected();
+		var selection = localStorage["lastList"] || "";
+		for( var i = 0; i<model.presets().length; i++ )
+			if( selection.indexOf( model.presets()[i].name() ) > -1 )
+				model.presets()[i].toggleSelected();
 	}
 	var count = 0;
-	for( var i = 0; i<model.customPresets().length; i++ )
+	for( var i = 0; i<model.presets().length; i++ )
 	{
-		if( model.customPresets()[i].selected() )
+		if( model.presets()[i].selected() )
 			count++;
 	}
 	if( count === 0 )
 	{
-		model.customPresets()[0].toggleSelected();
-		model.customPresets()[1].toggleSelected();
+		model.presets()[0].toggleSelected();
+		model.presets()[1].toggleSelected();
 	}
 	ko.applyBindings(model);
 </script>

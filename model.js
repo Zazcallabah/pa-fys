@@ -1,5 +1,5 @@
 var Model = function() {
-	this.customPresets = ko.observableArray([]);
+	this.presets = ko.observableArray([]);
 	this.editingPreset = ko.observable();
 	this.result = ko.observableArray([]);
 	this.groups = ko.observable(1);
@@ -26,10 +26,10 @@ Model.prototype.save = function(){
 	if( localStorage)
 	{
 		var l = [];
-		for( var i = 0; i<this.customPresets().length; i++ )
+		for( var i = 0; i<this.presets().length; i++ )
 		{
-			if( !this.customPresets()[i].permanent )
-				l.push(this.customPresets()[i].jsonPrepare() );
+			if( !this.presets()[i].permanent )
+				l.push(this.presets()[i].jsonPrepare() );
 		}
 		localStorage["customPresetList"] = JSON.stringify( l );
 	}
