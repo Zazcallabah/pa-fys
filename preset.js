@@ -1,8 +1,8 @@
-var Preset = function(initobj,permanent) {
+var Preset = function(initobj) {
 
 	this.dice = ko.observableArray([]);
 	this.name = ko.observable("");
-	this.permanent = ko.observable(permanent || false);
+	this.permanent = ko.observable(false);
 
 	if( initobj )
 	{
@@ -19,6 +19,9 @@ var Preset = function(initobj,permanent) {
 				return new Dice( d.name, d.faces );
 			}));
 		}
+		
+		if( obj.permanent )
+			this.permanent(true);
 	}
 	this.model = undefined;
 	this.selected = ko.observable(false);

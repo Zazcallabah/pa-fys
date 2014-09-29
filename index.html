@@ -110,7 +110,8 @@
 	var model = new Model();
 
 	model.register(new Preset( {
-		name:"Kill my upper body",
+	permanent:true,
+	name:"Kill my upper body",
 		dice:[{
 				name:"Action",
 				faces:[ "Double taps","Pushups","Climbups","Deadhang 5s","Traverse 0.5m",
@@ -125,8 +126,9 @@
 				faces:[ "x6","x6","x6","x6","x6","x6","x7","x8","x10"]
 			}
 		]
-	}, true ));
+	} ));
 	model.register(new Preset( {
+		permanent:true,
 		name:"Kill my lower body",
 		dice:[{
 				name:"Action",
@@ -136,7 +138,7 @@
 				faces:[ "x2", "x2", "x3", "x4", "x5", "x6"]
 			}
 		]
-	}, true ));
+	} ));
 	
 	$("#removedice").click(function() {
 		if( model.editingPreset().dice().length > 1 )
