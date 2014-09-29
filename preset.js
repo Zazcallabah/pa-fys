@@ -3,16 +3,18 @@ var Preset = function(initobj) {
 	this.dice = ko.observableArray([]);
 	this.name = ko.observable("");
 	this.permanent = ko.observable(false);
-
+	this.model = undefined;
+	this.selected = ko.observable(false);
+	
 	if( initobj )
 	{
 		var obj = initobj;
 		if( typeof initobj === 'string' )
 			obj = JSON.parse( initobj );
-			
+		
 		if( obj.name )
 			this.name( obj.name );
-			
+		
 		if( obj.dice )
 		{
 			this.dice(obj.dice.map( function(d){
@@ -23,8 +25,6 @@ var Preset = function(initobj) {
 		if( obj.permanent )
 			this.permanent(true);
 	}
-	this.model = undefined;
-	this.selected = ko.observable(false);
 };
 
 Preset.prototype.roll = function(){
@@ -63,4 +63,4 @@ Preset.prototype.toggleSelected = function() {
 			.map( function(p){ return p.name(); } )
 			.join(";");
 	}
-}
+};
