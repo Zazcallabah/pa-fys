@@ -1,7 +1,8 @@
-var Preset = function(model,initobj) {
+var Preset = function(model,initobj,permanent) {
 
 	this.dice = ko.observableArray([]);
 	this.name = ko.observable("");
+	this.permanent = ko.observable(permanent || false);
 
 	if( initobj )
 	{
@@ -28,6 +29,12 @@ var Preset = function(model,initobj) {
 	this.model = model;
 	this.selected = ko.observable(false);
 	model.customPresets.push(this);
+	if( model.editingPreset() === undefined )
+		model.editingPreset(this);
+};
+
+Preset.prototype.roll = function(){
+	this.model.roll( this );
 };
 
 Preset.prototype.jsonPrepare = function(){
@@ -45,6 +52,11 @@ Preset.prototype.jsonPrepare = function(){
 	return data;
 };
 
+Preset.prototype.editMe = function() {
+	this.model.editingPreset(this);
+	$(':mobile-pagecontainer').pagecontainer('change', '#editPreset' );
+};
+
 Preset.prototype.removeMe = function() {
 	if( this.model.customPresets().length === 1 )
 		return;
@@ -54,18 +66,18 @@ Preset.prototype.removeMe = function() {
 		if( !this.model.customPresets()[i].removalmark )
 			list.push( this.model.customPresets()[i] );
 	this.model.customPresets(list);
-	if( preset.selected() )
-		this.model.customPresets()[0].toggleSelected();
+	this.model.save();
 };
 
 Preset.prototype.toggleSelected = function() {
-	if(!this.selected())
+	this.selected( !this.selected() );
+	this.model.result([]);
+	if( localStorage )
 	{
-		this.model.resetSelected();
-		this.selected(true);
-		this.model.selectedPreset(this);
-		this.model.result([]);
-		if( localStorage )
-			localStorage["lastList"] = this.name();
+		var list = this.model.customPresets();
+		var l = "";
+		for( var i=0; i<list.length; i++ )
+			l=list[i].name()+";";
+		localStorage["lastList"] = l;
 	}
 }

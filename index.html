@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html manifest="fys.appcache">
 <head>
-	<title>Fysapp Parkour Academy</title>
+	<title>Parkour Academy Fysmaskin</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css"/>
@@ -18,27 +18,74 @@
 <body>
 
 <div data-role="page" id="main">
-	<div data-role="header"><h1 data-bind="text: selectedPreset().name()"></h1></div>
+	<div data-role="header"><h1>Parkour Academy Fysmaskin</h1></div>
 	<div role="main" class="ui-content">
-		<button id="roll" class="ui-btn">Roll!</button>
+		<div data-bind="foreach: customPresets">
+			<button class="ui-btn" data-bind="text: name, visible: selected, click: roll"></button>
+		</div>
 		<ul data-inset="true" data-role="listview" data-bind="foreach: result">
 			<li class="ui-li-static ui-body-inherit" data-bind="text: name() + ' ' + roll()"></li>
 		</ul>
 	</div>
 	<div data-role="footer">&nbsp;
 		<a class="ui-btn ui-btn-inline" href="#setup">Setup</a>
-		<a class="ui-btn ui-btn-inline" href="#presets">Presets</a>
+		<a class="ui-btn ui-btn-inline" href="#sets" data-bind="text: 'Sets: '+sets()"></a>
+	</div>
+</div>
+
+<div data-role="page" id="sets">
+	<div data-role="header"><h1>Set tracking</h1></div>
+	<div role="main" class="ui-content">
+		<h3 data-bind="text: 'Number of groups: '+groups()"></h3>
+		<button class="ui-btn ui-btn-inline" data-bind="click: addGroup">+</button>
+		<button class="ui-btn ui-btn-inline" data-bind="click: removeGroup">-</button>
+		<h3 data-bind="text: 'Current set count: '+sets()"></h3>
+		<button class="ui-btn" data-bind="click: resetSets">Reset setcount</button>
+	</div>
+	<div data-role="footer">&nbsp;
+		<a class="ui-btn ui-btn-inline" href="#main">Go back</a>
 	</div>
 </div>
 
 <div data-role="page" id="setup">
-	<div data-role="header"><h1 data-bind="text: 'Setup: ' + selectedPreset().name()"></h1></div>
+	<div data-role="header"><h1>Setup</h1></div>
+	<div role="main" class="ui-content">
+		<h3>Select presets to show on front page</h3>
+		<div data-bind="foreach: customPresets">
+			<button class="ui-btn" data-bind="css: { 'ui-btn-b': selected }, text:name, click: toggleSelected"></button>
+		</div>
+	</div>
+	<div data-role="footer">&nbsp;
+		<a class="ui-btn ui-btn-inline" href="#main">Go back</a>
+		<a class="ui-btn ui-btn-inline" href="#edit">Edit presets</a>
+	</div>
+</div>
+
+<div data-role="page" id="edit">
+	<div data-role="header"><h1>Edit presets</h1></div>
+	<div role="main" class="ui-content">
+		<div data-bind="foreach: customPresets">
+			<h3 data-bind="text: name"></h3>
+			<button class="ui-btn" data-bind="click: editMe">Edit</button>
+			<button class="ui-btn" data-bind="visible: !permanent(), click: removeMe">Remove</button>
+		</div>
+		<h2>Tools</h2>
+		<button class="ui-btn" id="addpreset">Add new</button>
+		<button class="ui-btn" id="clearstorage">Reset all</button>
+	</div>
+	<div data-role="footer">&nbsp;
+		<a class="ui-btn ui-btn-inline" href="#setup">Go back</a>
+	</div>
+</div>
+
+<div data-role="page" id="editPreset">
+	<div data-role="header"><h1>Editing</h1></div>
 	<div role="main" class="ui-content">
 		<form>
 			<label for="nameinput">Name:</label>
-			<input type="text" name="nameinput" id="nameinput" data-bind="value: selectedPreset().name">
+			<input type="text" name="nameinput" id="nameinput" data-bind="value: editingPreset().name">
 		</form>
-		<form data-bind="foreach: selectedPreset().dice">
+		<form data-bind="foreach: editingPreset().dice">
 			<h4 data-bind="text: faces().length+' sided die'"></h4>
 			<div data-role="none" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
 				<input type="text" data-role="none" data-bind="value: name" />
@@ -55,36 +102,7 @@
 		<button class="ui-btn ui-btn-inline" id="removedice">Remove dice</button>
 	</div>
 	<div data-role="footer">&nbsp;
-		<a class="ui-btn ui-btn-inline" href="#main">Go</a>
 		<button class="ui-btn ui-btn-inline" id="save">Save</button>
-		<a class="ui-btn ui-btn-inline" href="#presets">Presets</a>
-	</div>
-</div>
-
-<div data-role="page" id="presets">
-	<div data-role="header"><h1>Presets</h1></div>
-	<div role="main" class="ui-content">
-		<div data-bind="foreach: customPresets">
-			<button class="ui-btn" data-bind="css: { 'ui-btn-b': selected }, text:name, click: toggleSelected"></button>
-		</div>
-	</div>
-	<div data-role="footer">&nbsp;
-		<a class="ui-btn ui-btn-inline" href="#main">Go</a>
-		<button class="ui-btn ui-btn-inline" id="addpreset">Add</button>
-		<a class="ui-btn ui-btn-inline" href="#removepresets">Remove</a>
-		<a class="ui-btn ui-btn-inline" href="#import">Import/Export</a>
-	</div>
-</div>
-
-<div data-role="page" id="removepresets">
-	<div data-role="header"><h1>Remove Presets</h1></div>
-	<div role="main" class="ui-content">
-		<div data-bind="foreach: customPresets">
-			<button class="ui-btn ui-icon-delete ui-btn-icon-left" data-bind="text:name, click: removeMe"></button>
-		</div>
-	</div>
-	<div data-role="footer">&nbsp;
-		<a class="ui-btn" href="#presets">Back</a>
 	</div>
 </div>
 
@@ -105,8 +123,8 @@
 <script type="text/javascript">
 	var model = new Model();
 
-	new Preset(model, {
-		name:"Upper body",
+	new Preset( model, {
+		name:"Kill my upper body",
 		dice:[{
 				name:"Action",
 				faces:[ "Double taps","Pushups","Climbups","Deadhang 5s","Traverse 0.5m",
@@ -121,9 +139,9 @@
 				faces:[ "x6","x6","x6","x6","x6","x6","x7","x8","x10"]
 			}
 		]
-	});
-	new Preset(model, {
-		name:"Lower body",
+	}, true );
+	new Preset( model, {
+		name:"Kill my lower body",
 		dice:[{
 				name:"Action",
 				faces:[ "Duckwalk","Partner carry","Lunges","Plios","Crouch jumps"]
@@ -132,32 +150,22 @@
 				faces:[ "x2", "x2", "x3", "x4", "x5", "x6"]
 			}
 		]
-	});
+	}, true );
 	
 	$("#removedice").click(function() {
-		if( model.selectedPreset().dice().length > 1 )
-			model.selectedPreset().dice.pop();
+		if( model.editingPreset().dice().length > 1 )
+			model.editingPreset().dice.pop();
 	});
 	
 	$("#adddice").click(function() {
 		var d = new Dice();
 		d.faces().push("");
-		model.selectedPreset().dice.push(d);
+		model.editingPreset().dice.push(d);
 	});
 	
 	$("#save").click(function(){
-		var l = [];
-		for( var i = 0; i<model.customPresets().length; i++ )
-		{
-			l.push(model.customPresets()[i].jsonPrepare() );
-		}
-		localStorage["customPresetList"] = JSON.stringify( l );
-	});
-	
-	$("#custom").click(function() {
-		var stored = localStorage["customSet"];
-		if( stored !== null )
-			loadModel( stored );
+		model.save();
+		$(':mobile-pagecontainer').pagecontainer('change', '#edit' );
 	});
 	
 	$("#roll").click(function() {
@@ -166,9 +174,11 @@
 	
 	$("#addpreset").click(function(){
 		var preset = new Preset(model, { name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]});
-		preset.toggleSelected();
 	});
-	
+	$("#clearstorage").click(function(){
+		if( localStorage)
+			localStorage.clear();
+	});
 	if( !localStorage )
 	{
 		$("#save").hide();
@@ -177,22 +187,30 @@
 	else
 	{
 		var listdata = localStorage["customPresetList"];
-		var preferred = localStorage["lastList"];
-		if( preferred === null || preferred === undefined )
-			preferred = "";
 		if( listdata !== null && listdata !== undefined )
 		{
 			var list = JSON.parse(listdata);
 			for( var i = 0; i<list.length; i++)
 			{
-				var preset = new Preset(list[i]);
-				if( preset.name() === preferred )
-					preset.toggleSelected();
+				new Preset(model,list[i]);
 			}
 		}
+		var selection = localStorage["lastList2"] || "";
+		for( var i = 0; i<model.customPresets().length; i++ )
+			if( selection.indexOf( model.customPresets()[i].name() ) > -1 )
+				model.customPresets()[i].toggleSelected();
 	}
-	if( !model.selectedPreset() )
+	var count = 0;
+	for( var i = 0; i<model.customPresets().length; i++ )
+	{
+		if( model.customPresets()[i].selected() )
+			count++;
+	}
+	if( count === 0 )
+	{
 		model.customPresets()[0].toggleSelected();
+		model.customPresets()[1].toggleSelected();
+	}
 	ko.applyBindings(model);
 </script>
 </body>
