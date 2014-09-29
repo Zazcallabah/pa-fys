@@ -1,6 +1,5 @@
 ﻿CACHE MANIFEST
-#2014-09-29:v0.2
-CACHE
+#2014-09-29:v0.21
 index.html
 dice.js
 defaults.js
@@ -9,4 +8,4 @@ model.js
 https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css
 https://code.jquery.com/jquery-2.1.1.min.js
 https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js
-knockout-3.2.0.js
+https://cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js
