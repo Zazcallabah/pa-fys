@@ -22,7 +22,7 @@
 			<button class="ui-btn" data-bind="text: name, visible: selected, click: roll"></button>
 		</div>
 		<ul data-inset="true" data-role="listview" data-bind="foreach: result">
-			<li class="ui-li-static ui-body-inherit" data-bind="text: name() + ' ' + roll()"></li>
+			<li class="ui-li-static ui-body-inherit" data-bind="text: ($root.showDiceLabels() ? name() + ': ' : '' ) + roll()"></li>
 		</ul>
 	</div>
 	<div data-role="footer">&nbsp;
@@ -37,6 +37,9 @@
 		<h3 data-bind="text: 'Number of groups: '+groups()"></h3>
 		<button class="ui-btn ui-btn-inline" data-bind="click: addGroup">+</button>
 		<button class="ui-btn ui-btn-inline" data-bind="click: removeGroup">-</button>
+		<label>
+			<input type="checkbox" data-bind="checked: showDiceLabels" >Display dice labels
+		</label>
 		<h3 data-bind="text: 'Current set count: '+sets()"></h3>
 		<button class="ui-btn" data-bind="click: resetSets">Reset setcount</button>
 	</div>
@@ -108,7 +111,7 @@
 	var model = new Model();
 	
 	if( _defaults )
-		_defaults.forEach( function(d){ model.register(new Preset(d));} );
+		_defaults.forEach( function(d){ model.register(new Preset(d)); } );
 	
 	$("#removedice").click(function() {
 		if( model.editingPreset().dice().length > 1 )
@@ -123,11 +126,7 @@
 		model.save();
 		$(':mobile-pagecontainer').pagecontainer('change', '#edit' );
 	});
-	
-	$("#roll").click(function() {
-		model.roll();
-	});
-	
+
 	$("#addpreset").click(function(){
 		model.register( new Preset({ name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]}));
 	});

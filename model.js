@@ -4,6 +4,7 @@ var Model = function() {
 	this.result = ko.observableArray([]);
 	this.groups = ko.observable(1);
 	this.setCount = ko.observable(0);
+	this.showDiceLabels = ko.observable(false);
 	this.sets = ko.computed( function(){
 		return Math.max( 0, (this.setCount() - this.groups()) );
 	}, this);
