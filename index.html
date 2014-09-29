@@ -109,7 +109,7 @@
 <script type="text/javascript">
 	var model = new Model();
 
-	new Preset( model, {
+	model.register(new Preset( {
 		name:"Kill my upper body",
 		dice:[{
 				name:"Action",
@@ -125,8 +125,8 @@
 				faces:[ "x6","x6","x6","x6","x6","x6","x7","x8","x10"]
 			}
 		]
-	}, true );
-	new Preset( model, {
+	}, true ));
+	model.register(new Preset( {
 		name:"Kill my lower body",
 		dice:[{
 				name:"Action",
@@ -136,7 +136,7 @@
 				faces:[ "x2", "x2", "x3", "x4", "x5", "x6"]
 			}
 		]
-	}, true );
+	}, true ));
 	
 	$("#removedice").click(function() {
 		if( model.editingPreset().dice().length > 1 )
@@ -157,7 +157,7 @@
 	});
 	
 	$("#addpreset").click(function(){
-		new Preset(model, { name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]});
+		model.register( new Preset({ name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]}));
 	});
 	$("#clearstorage").click(function(){
 		if( localStorage)
@@ -166,10 +166,10 @@
 	if( localStorage )
 	{
 		var listdata = localStorage["customPresetList"];
-		if( listdata !== null && listdata !== undefined )
+		if( listdata )
 		{
 			JSON.parse(listdata).forEach( function(l){
-				new Preset(model,l);
+				model.register(new Preset(l));
 			});
 		}
 		var selection = localStorage["lastList"] || "";

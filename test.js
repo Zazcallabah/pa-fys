@@ -1,8 +1,8 @@
 describe('model', function(){
 	it('can be saved', function(){
 		var m = new Model();
-		var p = new Preset(m,{name:"a",dice:[{name:"d",faces:["1","2"]}]});
-		
+		var p = new Preset({name:"a",dice:[{name:"d",faces:["1","2"]}]});
+		m.register(p);
 		m.save();
 		
 		expect( localStorage["customPresetList"] ).toBe( "[{\"name\":\"a\",\"dice\":[{\"name\":\"d\",\"faces\":[\"1\",\"2\"]}]}]" );
@@ -11,7 +11,7 @@ describe('model', function(){
 describe('a preset', function(){
 	it('can be empty', function(){
 		var m = new Model();
-		var p = new Preset(m);
+		var p = new Preset();
 		
 		expect( p.name() ).toBe( "" );
 		expect( p.dice().length ).toBe( 0 );
@@ -21,7 +21,7 @@ describe('a preset', function(){
 	it('can be from json', function(){
 		var json = "{\"name\":\"Custom\",\"dice\":[{\"name\":\"Action\",\"faces\":[\"Squats\",\"Pushups\"]}]}";
 		var m = new Model();
-		var p = new Preset(m,json);
+		var p = new Preset(json);
 		expect( p.name() ).toBe( "Custom" );
 		expect( p.dice().length ).toBe( 1 );
 		expect( p.dice()[0].name() ).toBe( "Action" );
@@ -37,7 +37,7 @@ describe('a preset', function(){
 		{name:"Action",faces:["Squats","Pushups"]}
 		]};
 		var m = new Model();
-		var p = new Preset(m,obj);
+		var p = new Preset(obj);
 		expect( p.name() ).toBe( "Custom" );
 		expect( p.dice().length ).toBe( 1 );
 		expect( p.dice()[0].name() ).toBe( "Action" );
@@ -51,10 +51,12 @@ describe('a preset', function(){
 	describe('toggleSelected',function(){
 		it('can store one preset', function(){
 			var m = new Model();
-			var a = new Preset(m,{name:"a",dice:[]});
-			var b = new Preset(m,{name:"b",dice:[]});
-			var c = new Preset(m,{name:"c",dice:[]});
-			
+			var a = new Preset({name:"a",dice:[]});
+			var b = new Preset({name:"b",dice:[]});
+			var c = new Preset({name:"c",dice:[]});
+			m.register(a);
+			m.register(b);
+			m.register(c);
 			a.toggleSelected();
 			
 			expect( localStorage["lastList"] ).toBe( "a" );
@@ -62,9 +64,13 @@ describe('a preset', function(){
 		
 		it('can store two presets', function(){
 			var m = new Model();
-			var a = new Preset(m,{name:"a",dice:[]});
-			var b = new Preset(m,{name:"b",dice:[]});
-			var c = new Preset(m,{name:"c",dice:[]});
+			var a = new Preset({name:"a",dice:[]});
+			var b = new Preset({name:"b",dice:[]});
+			var c = new Preset({name:"c",dice:[]});
+			
+			m.register(a);
+			m.register(b);
+			m.register(c);
 			
 			c.toggleSelected();
 			a.toggleSelected();
@@ -75,9 +81,9 @@ describe('a preset', function(){
 	
 	it('can be removed', function(){
 		var m = new Model();
-		new Preset(m,{name:"a",dice:[]});
+		m.register(new Preset({name:"a",dice:[]}));
 		var p = new Preset(m,{name:"a",dice:[{name:"a"}]});
-		
+		m.register(p);
 		p.removeMe();
 		
 		expect( m.presets().length ).toBe( 1 );

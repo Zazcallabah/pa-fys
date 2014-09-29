@@ -1,4 +1,4 @@
-var Preset = function(model,initobj,permanent) {
+var Preset = function(initobj,permanent) {
 
 	this.dice = ko.observableArray([]);
 	this.name = ko.observable("");
@@ -20,9 +20,8 @@ var Preset = function(model,initobj,permanent) {
 			}));
 		}
 	}
-	this.model = model;
+	this.model = undefined;
 	this.selected = ko.observable(false);
-	this.model.register( this );
 };
 
 Preset.prototype.roll = function(){

@@ -10,6 +10,7 @@ var Model = function() {
 }
 
 Model.prototype.register = function( preset ){
+	preset.model = this;
 	this.presets.push( preset );
 	if( !this.editingPreset() )
 		this.editingPreset(preset);
