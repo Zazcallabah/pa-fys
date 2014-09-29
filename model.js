@@ -9,6 +9,12 @@ var Model = function() {
 	}, this);
 }
 
+Model.prototype.register = function( preset ){
+	this.presets.push( preset );
+	if( !this.editingPreset() )
+		this.editingPreset(preset);
+};
+
 Model.prototype.addGroup = function(){
 	this.groups( this.groups()+1 );
 };

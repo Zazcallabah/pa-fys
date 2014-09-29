@@ -22,9 +22,7 @@ var Preset = function(model,initobj,permanent) {
 	}
 	this.model = model;
 	this.selected = ko.observable(false);
-	model.presets.push(this);
-	if( model.editingPreset() === undefined )
-		model.editingPreset(this);
+	this.model.register( this );
 };
 
 Preset.prototype.roll = function(){
