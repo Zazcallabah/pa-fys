@@ -3,6 +3,7 @@
 CACHE
 index.html
 dice.js
+defaults.js
 preset.js
 model.js
 https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css
