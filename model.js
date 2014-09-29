@@ -27,7 +27,7 @@ Model.prototype.save = function(){
 	{
 		var converted = [];
 		this.presets().forEach( function(p){
-			if( !p.permanent )
+			if( !p.permanent() )
 				converted.push( p.jsonPrepare() );
 		});
 		localStorage["customPresetList"] = JSON.stringify( converted );
