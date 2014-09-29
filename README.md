@@ -33,6 +33,7 @@ TODO
 * How to best move a configuration from a computer to a mobile browser? or vice-verse?
 * Fix preset setup, it is kinda ugly right now. Dont just remove the last in the list on setup page?
 * add background image to first page and the rest of the styling Viktor wants.
+* Trigger refresh when reset button is pushed
 
 
 Credits/Thanks
