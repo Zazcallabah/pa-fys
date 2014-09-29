@@ -1,6 +1,6 @@
-﻿var Dice = function() {
-	this.name = ko.observable("");
-	this.faces = ko.observableArray([]);
+﻿var Dice = function( n, f ) {
+	this.name = ko.observable( n || "" );
+	this.faces = ko.observableArray( f || [] );
 }
 
 Dice.prototype.lastFace = function(){

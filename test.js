@@ -1,4 +1,13 @@
-
+describe('model', function(){
+	it('can be saved', function(){
+		var m = new Model();
+		var p = new Preset(m,{name:"a",dice:[{name:"d",faces:["1","2"]}]});
+		
+		m.save();
+		
+		expect( localStorage["customPresetList"] ).toBe( "[{\"name\":\"a\",\"dice\":[{\"name\":\"d\",\"faces\":[\"1\",\"2\"]}]}]" );
+	});
+});
 describe('a preset', function(){
 	it('can be empty', function(){
 		var m = new Model();

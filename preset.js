@@ -15,15 +15,9 @@ var Preset = function(model,initobj,permanent) {
 			
 		if( obj.dice )
 		{
-			for( var i = 0; i<obj.dice.length; i++ )
-			{
-				var d = new Dice();
-				d.name(obj.dice[i].name);
-				if( obj.dice[i].faces )
-					for( var j = 0; j<obj.dice[i].faces.length; j++ )
-						d.faces.push( obj.dice[i].faces[j] );
-				this.dice.push( d );
-			}
+			this.dice(obj.dice.map( function(d){
+				return new Dice( d.name, d.faces );
+			}));
 		}
 	}
 	this.model = model;

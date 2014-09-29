@@ -158,9 +158,7 @@
 	});
 	
 	$("#adddice").click(function() {
-		var d = new Dice();
-		d.faces().push("");
-		model.editingPreset().dice.push(d);
+		model.editingPreset().dice.push(new Dice("Name",[""]));
 	});
 	
 	$("#save").click(function(){
@@ -173,39 +171,28 @@
 	});
 	
 	$("#addpreset").click(function(){
-		var preset = new Preset(model, { name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]});
+		new Preset(model, { name:"Custom",dice:[{name:"Action",faces:[ "Squats", "Pushups"]}]});
 	});
 	$("#clearstorage").click(function(){
 		if( localStorage)
 			localStorage.clear();
 	});
-	if( !localStorage )
-	{
-		$("#save").hide();
-	}
-	else
+	if( localStorage )
 	{
 		var listdata = localStorage["customPresetList"];
 		if( listdata !== null && listdata !== undefined )
 		{
-			var list = JSON.parse(listdata);
-			for( var i = 0; i<list.length; i++)
-			{
-				new Preset(model,list[i]);
-			}
+			JSON.parse(listdata).forEach( function(l){
+				new Preset(model,l);
+			});
 		}
 		var selection = localStorage["lastList"] || "";
-		for( var i = 0; i<model.presets().length; i++ )
-			if( selection.indexOf( model.presets()[i].name() ) > -1 )
-				model.presets()[i].toggleSelected();
+		model.presets()
+			.filter( function(p){ return selection.indexOf( p.name() ) > -1 } )
+			.forEach( function(p){ p.toggleSelected(); } );
 	}
-	var count = 0;
-	for( var i = 0; i<model.presets().length; i++ )
-	{
-		if( model.presets()[i].selected() )
-			count++;
-	}
-	if( count === 0 )
+	
+	if( model.presets().filter( function(p){ return p.selected(); } ).length === 0 )
 	{
 		model.presets()[0].toggleSelected();
 		model.presets()[1].toggleSelected();
