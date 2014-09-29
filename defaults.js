@@ -6,16 +6,44 @@ var _defaults = [
 	dice:[
 	{
 		name:"Action",
-		faces:[ "Double taps","Pushups","Climbups","Deadhang 5s","Traverse 0.5m",
-			"Deadhang traverse 0.5m","Flathand climbups","Handstand traverse 0.5m",
-			"Handstand pushups","Monkey walk 2m"]
+		faces:[
+			"Double taps",
+			"Pushups",
+			"Climbups",
+			"Deadhang 5s",
+			"Traverse 0.5m both ways",
+			"Deadhang traverse 0.5m both ways",
+			"Flathand climbups",
+			"Handstand traverse 0.5m both ways",
+			"Handstand pushups",
+			"Monkey walk 2m both forwards and backwards",
+		]
 	},{
 		name:"Modifier",
-		faces:[ "of PAIN","of PAIN","of DOOM","of DOOM",
-			"of DISASTER","of DISASTER","of CHAOS","of CHAOS","of DEATH"]
+		faces:[
+			"of PAIN (max rep)",
+			"of PAIN (max rep)",
+			"of DOOM (as many as possible)",
+			"of DOOM (as many as possible)",
+			"of DISASTER (slow)",
+			"of DISASTER (slow)",
+			"of CHAOS (eccentric)",
+			"of CHAOS (eccentric)",
+			"of DEATH (all exercises)",
+		]
 	},{
 		name:"Count",
-		faces:[ "x6","x6","x6","x6","x6","x6","x7","x8","x10"]
+		faces:[
+			"x6",
+			"x6",
+			"x6",
+			"x6",
+			"x6",
+			"x6",
+			"x7",
+			"x8",
+			"x10",
+		]
 	}]
 },
 
@@ -25,10 +53,23 @@ var _defaults = [
 	dice:[
 	{
 		name:"Action",
-		faces:[ "Duckwalk","Partner carry","Lunges","Plios","Crouch jumps"]
+		faces:[
+			"Duckwalk",
+			"Partner carry",
+			"Lunges",
+			"Plios",
+			"Crouch jumps",
+		]
 	},{
 		name:"Count",
-		faces:[ "x2", "x2", "x3", "x4", "x5", "x6"]
+		faces:[
+			"x2",
+			"x2", 
+			"x3",
+			"x4",
+			"x5",
+			"x6"
+		]
 	}]
 },
 
