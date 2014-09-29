@@ -38,18 +38,12 @@ Preset.prototype.roll = function(){
 };
 
 Preset.prototype.jsonPrepare = function(){
-	var data ={};
-	data.name = this.name();
-	data.dice = [];
-	for( var i = 0; i<this.dice().length; i++ )
-	{
-		var dice = this.dice()[i];
-		var f = [];
-		for( var j = 0; j<dice.faces().length; j++ )
-			f.push( dice.faces()[j] );
-		data.dice.push({name:dice.name(),faces:f});
-	}
-	return data;
+	return {
+		name: this.name(),
+		dice: this.dice().map(function(d){
+			return {name:d.name(),faces:d.faces()};
+		})
+	};
 };
 
 Preset.prototype.editMe = function() {

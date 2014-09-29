@@ -25,25 +25,23 @@ Model.prototype.removeGroup = function(){
 Model.prototype.save = function(){
 	if( localStorage)
 	{
-		var l = [];
-		for( var i = 0; i<this.presets().length; i++ )
-		{
-			if( !this.presets()[i].permanent )
-				l.push(this.presets()[i].jsonPrepare() );
-		}
-		localStorage["customPresetList"] = JSON.stringify( l );
+		var converted = [];
+		this.presets().forEach( function(p){
+			if( !p.permanent )
+				converted.push( p.jsonPrepare() );
+		});
+		localStorage["customPresetList"] = JSON.stringify( converted );
 	}
 };
 
-Model.prototype.roll = function(selectedPreset) {
-	this.setCount( this.setCount()+1 );
-	this.result([]);
-	var dies = selectedPreset.dice();
-	for( var i =0; i<dies.length; i++ )
-	{
-		this.result.push({
-			name: ko.observable(dies[i].name()),
-			roll: ko.observable(dies[i].roll())
+Model.prototype.roll = function(selectedPreset){
+	var model = this;
+	model.setCount( this.setCount()+1 );
+	model.result([]);
+	selectedPreset.dice().forEach( function(d){
+		model.result.push({
+			name: ko.observable(d.name()),
+			roll: ko.observable(d.roll())
 		});
-	}
+	});
 };
