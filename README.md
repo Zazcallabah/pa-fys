@@ -1,31 +1,38 @@
-pa-fys
-======
+Parkour Academy fysmaskin
+=========================
 
-Web app that generates a death-by-dice message. 
+Web app that generates a death-by-dice message. You roll dice and the dice tells you what to do.
 
 This app has not been beta tested yet.
 
-How to:
+
+How to
 ------
-You either choose from one of the preset dice configurations, or create your own custom one.
-Each configuration contain a number of dice, each dice has a number of sides, and each side has text.
+Click the button to get a conditioning exercise.
+
+
+Advanced how to
+---------------
+Click the sets button to change some settings.
+* Keep track of how many sets have been completed, and reset counter when starting over.
+* Do you want to see what the dice are named?
+
+Click the setup button to change some other settings.
+* Which presets do you want to choose from on the front page?
+* Which dice should those presets contain
+* What messages are on those dice?
+
 
 Why?
 ---
-It is not as fun as actually rolling dice, but it is faster and a bit clearer, and thus somewhat more effective
-when coaching larger groups. 
+It is not as fun as actually rolling dice - but it is faster and a bit more clear, and thus somewhat more effective when coaching larger groups. 
 
-TODO:
+
+TODO
 ----
-* figure out how to best copy, import, export existing configurations
-* How to best move a configuration from a computer to a mobile browser?
-* Fix preset setup, it is kinda ugly right now. Dont just remove the last in the list on setup page
-* Include points counter.
-* select more than one preset to show on first page
-* add background image to first page?
-
-
-
+* How to best move a configuration from a computer to a mobile browser? or vice-verse?
+* Fix preset setup, it is kinda ugly right now. Dont just remove the last in the list on setup page?
+* add background image to first page and the rest of the styling Viktor wants.
 
 
 Credits/Thanks
