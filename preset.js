@@ -55,11 +55,7 @@ Preset.prototype.removeMe = function() {
 	if( this.model.presets().length === 1 )
 		return;
 	this.removalmark = true;
-	var list = [];
-	for( var i = 0; i<this.model.presets().length; i++ )
-		if( !this.model.presets()[i].removalmark )
-			list.push( this.model.presets()[i] );
-	this.model.presets(list);
+	this.model.presets( this.model.presets().filter( function(p){ return !p.removalmark; } ) );
 	this.model.save();
 };
 
@@ -68,10 +64,9 @@ Preset.prototype.toggleSelected = function() {
 	this.model.result([]);
 	if( localStorage )
 	{
-		var list = this.model.presets();
-		var l = "";
-		for( var i=0; i<list.length; i++ )
-			l=list[i].name()+";";
-		localStorage["lastList"] = l;
+		localStorage["lastList"] = this.model.presets()
+			.filter( function(p){ return p.selected() })
+			.map( function(p){ return p.name(); } )
+			.join(";");
 	}
 }
