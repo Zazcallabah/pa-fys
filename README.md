@@ -36,8 +36,8 @@ TODO
 * Trigger refresh when reset button is pushed
 * Jag vill att båda knapparna är "fejdade" när man har fått fram listan. /Vktr
 * Jag vill att listan "rullar/glider" ner från knappen? /Vktr
-*Tärningsresultat nu i löpande text /Peter
-*Style enbart på första sidan /peter
+* fixat: Tärningsresultat nu i löpande text /Peter
+* fixat: Style enbart på första sidan /peter
 
 
 Credits/Thanks
