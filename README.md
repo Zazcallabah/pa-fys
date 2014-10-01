@@ -34,8 +34,10 @@ TODO
 * Fix preset setup, it is kinda ugly right now. Dont just remove the last in the list on setup page?
 * add background image to first page and the rest of the styling Viktor wants.
 * Trigger refresh when reset button is pushed
-* Jag vill att b�da knapparna �r "fejdade" n�r man har f�tt fram listan. /Vktr
-* Jag vill att listan "rullar/glider" ner fr�n knappen? /Vktr
+* Jag vill att båda knapparna är "fejdade" när man har fått fram listan. /Vktr
+* Jag vill att listan "rullar/glider" ner från knappen? /Vktr
+*Tärningsresultat nu i löpande text /Peter
+*Style enbart på första sidan /peter
 
 
 Credits/Thanks
