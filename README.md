@@ -34,7 +34,9 @@ TODO
 * Fix preset setup, it is kinda ugly right now. Dont just remove the last in the list on setup page?
 * add background image to first page and the rest of the styling Viktor wants.
 * Trigger refresh when reset button is pushed
-
+* Jag vill att båda knapparna är "fejdade" när man har fått fram listan. /Vktr
+* Jag vill att listan "rullar/glider" ner från knappen? /Vktr
+* Istället för separata "block". Gör så att det är ett block med en text i stil med "Do 50 push ups of death slowly".
 
 Credits/Thanks
 --------------
