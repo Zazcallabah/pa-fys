@@ -121,7 +121,7 @@
 			<button class="ui-btn" data-bind="text: name, visible: selected, click: roll"></button>
 		</div>
 		<ul data-inset="true" data-role="listview" data-bind="foreach: result">
-			<li class="ui-li-static ui-body-inherit" data-bind="text: ($root.showDiceLabels() ? name() + ': ' : '' ) + roll()"></li>
+			<li class="ui-li-static ui-body-inherit" data-bind="text: roll()"></li>
 		</ul>
 	</div>
 	<div data-role="footer">&nbsp;
@@ -136,9 +136,6 @@
 		<h3 data-bind="text: 'Number of groups: '+groups()"></h3>
 		<button class="ui-btn ui-btn-inline" data-bind="click: removeGroup">-</button>
 		<button class="ui-btn ui-btn-inline" data-bind="click: addGroup">+</button>
-		<label>
-			<input type="checkbox" data-bind="checked: showDiceLabels" >Display dice labels
-		</label>
 		<h3 data-bind="text: 'Current set count: '+sets()"></h3>
 		<button class="ui-btn" data-bind="click: resetSets">Reset setcount</button>
 	</div>
