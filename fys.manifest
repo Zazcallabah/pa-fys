@@ -1,10 +1,12 @@
 ﻿CACHE MANIFEST
-#2014-10-01:v0.3
+#2014-10-07:v0.35
 index.html
 dice.js
 defaults.js
 preset.js
 model.js
+pka_logo.svg
+parkour-2.jpp
 https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css
 https://code.jquery.com/jquery-2.1.1.min.js
 https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js
