@@ -2,7 +2,7 @@
 <html manifest="fys.manifest">
 <head>
 	<title>Parkour Academy Fysmaskin</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css"/>
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -13,20 +13,31 @@
 	<script src="model.js"></script>
 	<script src="defaults.js"></script>
 	<style>
-		body, #main {
+		body, #main, #setup {
 			background: url(parkour-2.jpg) no-repeat center center fixed;
 			background-size: cover;
 			overflow-x: hidden;
 		}
 		
+		#setup {
+			text-shadow:none;
+			color:rgba(255,255,255,0.9);
+			font-family: Oswald!important;
+			text-align:center;
+			font-weight: Lighter!important;
+		}
+
+	
 		#main .ui-title {
 			color: transparent;
 		}
+		
 		#main .ui-bar-inherit, #main .ui-btn {
 			text-shadow: none !important;
 			border: none !important;
 			background-color: rgba(0,0,0,0.4) !important;
 		}
+		
 		#main, #main .ui-btn {
 			text-shadow: none !important;
 			font-family: "Helvetica Neue", "Roboto", "Helvetica", "Verdana", sans-serif;
@@ -34,6 +45,7 @@
 			letter-spacing: 2px !important;
 			font-size: 12pt !important;
 		}
+		
 		#main .ui-btn {
 			border-radius: 25px;
 			border: none !important;
@@ -41,17 +53,27 @@
 			color: rgba(255,255,255,0.8) !important;
 			margin: 20px 0px;
 		}
-		#main .ui-header {
+		
+		#main .ui-header, #setup .ui-header {
 			background: url(pka_logo.svg);
-			background-size: auto 90%;
+			background-size: auto 70%;
 			background-repeat: no-repeat;
 			background-position: center; 
 			opacity: 50% !important;
+			padding: 10px;
 		}
+
+		#setup .ui-header {
+			border:none;
+			box-shadow:none!important;
+			background-color:rgba(0,0,0,0.4);
+		}
+		
 		#main .ui-btn:focus {
 			border: none;
 			box-shadow: none !important;
 		}
+		
 		#main .result {
 			background-color: rgba(255,255,255,0.65) !important;
 			line-height: 20px;
@@ -59,13 +81,30 @@
 			padding: 1em;
 			width: 70%;
 			text-align: center !important;
-			border-radius: 25px;
+			border-radius: 15px;
 		}
-		#main .ui-footer a{
+		
+		#main .ui-footer a {
 			margin-left: 22px;
 			margin-right: 22px;
 		}
+		
+		.resultcontainer {
+			overflow:hidden;
+		}
 
+		.result {
+			overflow-y: hidden;
+			height: 100%;
+			transition: transform 1s ease;
+		}
+
+		.result.opened { 
+			transform: translate(0, 0%);
+		}
+		.result.closed { 
+			transform: translate(0, -200%);
+		}
 
 		.ui-footer {
 			width: 100%;
@@ -84,20 +123,60 @@
 			margin-bottom: 2em;
 		}
 		
-
 		
-/* UNMERGED CSS
-	.ui-btn:hover{
-		background-color:rgba(255,255,255,0.7)!important;
+		
+		
+		/* SETUP */
+		
+		
+		
+	
+	
+	#setup button.ui-btn-b{
+		background-color: rgba(255,255,255,0.5)!important;
+		}
+	#setup .ui-btn-b{
+		border-radius: 25px;
+		border: none !important;
+		background-color: rgba(255,255,255,0.5)!important;
+		margin: 20px 0px;
+		font-family: Helvetica Neue!important;
+		font-weight: Lighter;
+		text-shadow:none!important;
+		letter-spacing: 2px !important;
+		font-size: 12pt !important
 	}
-	.ui-content{
-		padding-top:10px;
+		
+	#setup .ui-btn{
+		border:none;
+		text-shadow:none;
+		color:rgba(255,255,255,0.8);
+		border-radius: 25px;
+		border: none !important;
+		background-color: rgba(255,255,255,0.3)!important;
+		margin: 20px 0px;
+		font-family:Helvetica Neue;
+		font-weight:lighter;
+		font-size:12pt;
 	}
-	#main .ui-content{
-		margin:auto;
-		width:75%;
+				
+	#setup .ui-footer a{
+		margin-left: 22px;
+		margin-right: 22px;
+		background-color:rgba(0,0,0,0.4);
 	}
-*/
+		
+	#setup .ui-bar-inherit{
+		background-color:rgba(0,0,0,0.4);
+		border:none;
+		text-shadow:none!important;		
+	}
+	
+	#setup .ui-btn:focus {
+		border: none;
+		box-shadow: none !important;
+		}
+
 		@font-face {
 			font-family: 'Roboto';
 			font-style: normal;
@@ -115,8 +194,10 @@
 		<div data-bind="foreach: presets">
 			<button class="ui-btn" data-bind="text: name, visible: selected, click: roll"></button>
 		</div>
-		<div class="result" data-bind="visible: result().length > 0, foreach: result">
+		<div class="resultcontainer">
+			<div class="result" data-bind="css: { 'opened': result().length > 0, 'closed':result().length === 0 }, foreach: result">
 				<span data-bind="text: roll()"></span>
+			</div>
 		</div>
 	</div>
 	<div data-role="footer">&nbsp;
@@ -140,7 +221,7 @@
 </div>
 
 <div data-role="page" id="setup">
-	<div data-role="header"><h1>Setup</h1></div>
+	<div data-role="header"><h1></h1></div>
 	<div role="main" class="ui-content">
 		<h3>Select presets to show on front page</h3>
 		<div data-bind="foreach: presets">
@@ -246,6 +327,7 @@
 		model.presets()[1].toggleSelected();
 	}
 	ko.applyBindings(model);
+	
 </script>
 </body>
 </html>
