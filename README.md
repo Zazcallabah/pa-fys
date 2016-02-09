@@ -5,6 +5,7 @@ Web app that generates a death-by-dice message. You roll dice and the dice tells
 
 This app has not been beta tested yet.
 
+[Screenshot](scr_pa.png)
 
 How to
 ------
